@@ -1,36 +1,38 @@
 class TodoService {
 
-    static lastId: number = 0;
+  static lastId: number = 0;
 
-    constructor(private todos: Todo[]) {
-    }
+  constructor(private todos: Todo[]) {
+  }
 
-    add(todo: Todo) {
-        var newId = TodoService.getNextId();
-    }
+  add(todo: Todo) {
+    var newId = TodoService.getNextId();
+  }
 
-    getAll() {
-        return this.todos;
-    }
+  getAll() {
+    return this.todos;
+  }
 
-    static getNextId() {
-        return TodoService.lastId += 1;
-    }
+  // static methods make sure that htis always returns something
+  static getNextId() {
+    return TodoService.lastId += 1;
+  }
 }
 
 interface Todo {
-    name: string;
-    state: TodoState;
+  name: string;
+  state: TodoState;
 }
 
 enum TodoState {
-    New = 1,
-    Active,
-    Complete,
-    Deleted
+  New = 1,
+  Active,
+  Complete,
+  Deleted
 }
 
 var todo = {
-    name: "Pick up drycleaning",
-    state: TodoState.Complete
+  name: "Pick up drycleaning",
+  // directly access enum
+  state: TodoState.Complete
 }
