@@ -1,13 +1,14 @@
 var container = document.getElementById('container');
 
+// explicitly define optional args unlike js
 function countdown(initial, final = 0, interval = 1) {
 
-    var current = initial;
+  var current = initial;
 
-    while (current > final) {
-        container.innerHTML = current;
-        current -= interval;
-    }
+  while (current > final) {
+    container.innerHTML = current;
+    current -= interval;
+  }
 
 }
 
