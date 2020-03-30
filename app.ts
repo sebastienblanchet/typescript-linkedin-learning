@@ -1,22 +1,24 @@
 interface Todo {
-    name: string;
-    state: TodoState;
+  name: string;
+  state: TodoState;
 }
 
 var todo: Todo = {
-    name: "Pick up drycleaning",
-    state: TodoState.New
+  name: "Pick up drycleaning",
+  state: TodoState.New
 }
 
+// this converts to obj of dynamically accessed obj prop
 enum TodoState {
-    New = 1,
-    Active,
-    Complete,
-    Deleted
+  // give some context, provide starting point
+  New = 1,
+  Active,
+  Complete,
+  Deleted
 }
 
-function delete(todo: Todo) {
-    if(todo.state != TodoState.Complete) {
-        throw "Can't delete incomplete task!"
-    }
+function delete (todo: Todo) {
+  if (todo.state != TodoState.Complete) {
+    throw "Can't delete incomplete task!"
+  }
 }
