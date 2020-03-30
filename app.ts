@@ -1,39 +1,42 @@
-var $ = <jQuery>function(selector: string) {
-    // Find DOM element
+var $ = <jQuery>function (selector: string) {
+  // Find DOM element
 }
 
 $.version = 1.18;
 
-
 interface Todo {
-    name: string;
-    completed?: boolean;
+  name: string;
+  completed?: boolean;
 }
 
 interface jQuery {
-    (selector: (string | any)): jQueryElement;
-    fn: any;
-    version: number;
+  (selector: (string | any)): jQueryElement;
+  fn: any;
+  version: number;
 }
 
 interface jQueryElement {
-    data(name: string): any;
-    data(name: string, data: any): jQueryElement;
+  data(name: string): any;
+  data(name: string, data: any): jQueryElement;
 }
 
+// this definition does not overwrite the real definition
+// will only use if thats what you give
+// good way to extend libs
 interface jQueryElement {
-    todo(): Todo;
-    todo(todo: Todo): jQueryElement;
+  todo(): Todo;
+  todo(todo: Todo): jQueryElement;
 }
 
-$.fn.todo = function(todo?: Todo): Todo {
-    
-    if(todo) {
-        $(this).data('todo', todo)
-    } else {
-        return $(this).data('todo');
-    }
-    
+// jQuery fn
+$.fn.todo = function (todo?: Todo): Todo {
+
+  if (todo) {
+    $(this).data('todo', todo)
+  } else {
+    return $(this).data('todo');
+  }
+
 }
 
 var todo = { name: "Pick up drycleaning" };
