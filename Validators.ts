@@ -3,11 +3,11 @@ import { Todo, TodoState } from './Model';
 @validatable
 export class ValidatableTodo implements Todo {
 
-    id: number;
+  id: number;
 
-    name: string;
+  name: string;
 
-    state: TodoState;
+  state: TodoState;
 }
 
 export interface ValidatableTodo extends IValidatable {
@@ -15,38 +15,38 @@ export interface ValidatableTodo extends IValidatable {
 
 
 export interface IValidatable {
-    validate(): IValidationResult[];
+  validate(): IValidationResult[];
 }
 
 export interface IValidationResult {
-    isValid: boolean;
-    message: string;
-    property?: string;
+  isValid: boolean;
+  message: string;
+  property?: string;
 }
 
 export interface IValidator {
-    (instance: Object): IValidationResult;
+  (instance: Object): IValidationResult;
 }
 
 export function validate(): IValidationResult[] {
-    let validators: IValidator[] = [].concat(this._validators),
-        errors: IValidationResult[] = [];
+  let validators: IValidator[] = [].concat(this._validators),
+    errors: IValidationResult[] = [];
 
-    for (let validator of validators) {
-        
-        let result = validator(this);
-        
-        if(!result.isValid) {
-            errors.push(result);
-        }
-        
+  for (let validator of validators) {
+
+    let result = validator(this);
+
+    if (!result.isValid) {
+      errors.push(result);
     }
-    
-    return errors;
+
+  }
+
+  return errors;
 }
 
 export function validatable(target: Function) {
-    
-    target.prototype.validate = validate;
-    
+
+  target.prototype.validate = validate;
+
 }
