@@ -1,8 +1,9 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "declaration": true,
-        "module": "system",
-        "sourceMap": true
-    }
+  "compilerOptions": {
+    "target": "es5",
+    "declaration": true,
+    "module": "system",
+    // need this flag to debug the js as ts
+    "sourceMap": true
+  }
 }
