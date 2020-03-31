@@ -1,6 +1,7 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "system"
-    }
+  "compilerOptions": {
+    "target": "es5",
+    // module loader
+    "module": "system"
+  }
 }
