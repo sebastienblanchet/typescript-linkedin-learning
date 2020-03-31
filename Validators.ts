@@ -3,13 +3,14 @@ import { Todo, TodoState } from './Model';
 @validatable
 export class ValidatableTodo implements Todo {
 
-    id: number;
+  id: number;
 
-    @required
-    @regex(`^[a-zA-Z ]*$`)
-    name: string;
+  // multiple decorators is valid!!
+  @required
+  @regex(`^[a-zA-Z ]*$`)
+  name: string;
 
-    state: TodoState;
+  state: TodoState;
 }
 
 export interface ValidatableTodo extends IValidatable {
@@ -17,89 +18,91 @@ export interface ValidatableTodo extends IValidatable {
 
 
 export interface IValidatable {
-    validate(): IValidationResult[];
+  validate(): IValidationResult[];
 }
 
 export interface IValidationResult {
-    isValid: boolean;
-    message: string;
-    property?: string;
+  isValid: boolean;
+  message: string;
+  property?: string;
 }
 
 export interface IValidator {
-    (instance: Object): IValidationResult;
+  (instance: Object): IValidationResult;
 }
 
 export function validate(): IValidationResult[] {
-    let validators: IValidator[] = [].concat(this._validators),
-        errors: IValidationResult[] = [];
+  let validators: IValidator[] = [].concat(this._validators),
+    errors: IValidationResult[] = [];
 
-    for (let validator of validators) {
+  for (let validator of validators) {
 
-        let result = validator(this);
+    let result = validator(this);
 
-        if (!result.isValid) {
-            errors.push(result);
-        }
-
+    if (!result.isValid) {
+      errors.push(result);
     }
 
-    return errors;
+  }
+
+  return errors;
 }
 
 export function validatable(target: Function) {
 
-    target.prototype.validate = validate;
+  target.prototype.validate = validate;
 
 }
 
 export function required(target: Object, propertyName: string) {
 
-    let validatable = <{ _validators: IValidator[] }>target,
-        validators = (validatable._validators || (validatable._validators = []));
+  let validatable = <{ _validators: IValidator[] }>target,
+    validators = (validatable._validators || (validatable._validators = []));
 
-    validators.push(function(instance) {
+  validators.push(function (instance) {
 
-        let propertyValue = instance[propertyName],
-            isValid = propertyValue != undefined;
+    let propertyValue = instance[propertyName],
+      isValid = propertyValue != undefined;
 
-        if (typeof propertyValue === 'string') {
-            isValid = propertyValue && propertyValue.length > 0;
-        }
+    if (typeof propertyValue === 'string') {
+      isValid = propertyValue && propertyValue.length > 0;
+    }
 
-        return {
-            isValid,
-            message: `${propertyName} is required`,
-            property: propertyName
-        }
+    return {
+      isValid,
+      message: `${propertyName} is required`,
+      property: propertyName
+    }
 
-    })
+  })
 
 }
 
+// decorator factory
 export function regex(pattern: string) {
-    
-    let expression = new RegExp(pattern);
 
-    return function regex(target: Object, propertyName: string) {
+  let expression = new RegExp(pattern);
 
-        let validatable = <{ _validators: IValidator[] }>target,
-            validators = (validatable._validators || (validatable._validators = []));
+  // this is a decorator that returns a function
+  return function regex(target: Object, propertyName: string) {
 
-        validators.push(function(instance) {
+    let validatable = <{ _validators: IValidator[] }>target,
+      validators = (validatable._validators || (validatable._validators = []));
 
-            let propertyValue = instance[propertyName],
-                isValid = expression.test(propertyValue);
+    validators.push(function (instance) {
 
-            return {
-                isValid,
-                message: `${propertyName} does not match ${expression}`,
-                property: propertyName
-            }
+      let propertyValue = instance[propertyName],
+        isValid = expression.test(propertyValue);
 
-        })
-        
-    };
+      return {
+        isValid,
+        message: `${propertyName} does not match ${expression}`,
+        property: propertyName
+      }
+
+    })
+
+  };
 
 }
 
