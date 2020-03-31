@@ -1,4 +1,6 @@
 {
+  // use tsd, similar to npm
+  // definitly typed, creates a typed directory with ts version of code
   "version": "v4",
   "repo": "borisyankov/DefinitelyTyped",
   "ref": "master",

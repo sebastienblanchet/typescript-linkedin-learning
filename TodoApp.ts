@@ -1,62 +1,62 @@
 class TodoApp {
-    
-    private todoService: ITodoService;
-    private todoList: TodoListComponent;
 
-    constructor(el, todos) {
+  private todoService: ITodoService;
+  private todoList: TodoListComponent;
 
-        this.todoService = new TodoService(todos);
-        this.initialize(el);
-    }
+  constructor(el, todos) {
 
-    addTodo(todoName) {
-        this.todoService.add(todoName);
-        this.renderTodos();
-    }
+    this.todoService = new TodoService(todos);
+    this.initialize(el);
+  }
 
-    clearCompleted() {
-        this.todoService.clearCompleted();
-        this.renderTodos();
-    }
+  addTodo(todoName) {
+    this.todoService.add(todoName);
+    this.renderTodos();
+  }
 
-    toggleTodoState(todoId) {
-        this.todoService.toggle(todoId);
-        this.renderTodos();
-    }
+  clearCompleted() {
+    this.todoService.clearCompleted();
+    this.renderTodos();
+  }
 
-    renderTodos() {
-        var todos = this.todoService.getAll();
-        this.todoList.render(todos);
-    }
+  toggleTodoState(todoId) {
+    this.todoService.toggle(todoId);
+    this.renderTodos();
+  }
 
-    initialize(el) {
+  renderTodos() {
+    var todos = this.todoService.getAll();
+    this.todoList.render(todos);
+  }
 
-        var _this = this;
+  initialize(el) {
 
-        var addTodoFormEl = el.getElementsByClassName('add-todo')[0],
-            addTodoNameEl = addTodoFormEl.getElementsByTagName('input')[0],
-            todoListEl = el.getElementsByClassName('todo-list')[0],
-            clearCompletedEl = el.getElementsByClassName('clear-completed')[0];
+    var _this = this;
 
-        addTodoFormEl.addEventListener('submit', function(evnt) {
-            _this.addTodo(addTodoNameEl.value)
-            addTodoNameEl.value = '';
-            evnt.preventDefault();
-        });
+    var addTodoFormEl = el.getElementsByClassName('add-todo')[0],
+      addTodoNameEl = addTodoFormEl.getElementsByTagName('input')[0],
+      todoListEl = el.getElementsByClassName('todo-list')[0],
+      clearCompletedEl = el.getElementsByClassName('clear-completed')[0];
 
-        todoListEl.addEventListener('todo-toggle', function(evnt) {
-            var todoId = evnt.detail.todoId;
-            _this.todoService.toggle(todoId);
-            _this.renderTodos();
-        });
+    addTodoFormEl.addEventListener('submit', function (evnt) {
+      _this.addTodo(addTodoNameEl.value)
+      addTodoNameEl.value = '';
+      evnt.preventDefault();
+    });
 
-        clearCompletedEl.addEventListener('click', function() {
-            _this.clearCompleted();
-        });
+    todoListEl.addEventListener('todo-toggle', function (evnt) {
+      var todoId = evnt.detail.todoId;
+      _this.todoService.toggle(todoId);
+      _this.renderTodos();
+    });
 
-        this.todoList = new TodoListComponent(todoListEl);
+    clearCompletedEl.addEventListener('click', function () {
+      _this.clearCompleted();
+    });
 
-        this.renderTodos();
-    }
+    this.todoList = new TodoListComponent(todoListEl);
+
+    this.renderTodos();
+  }
 
 }
